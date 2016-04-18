@@ -12,7 +12,7 @@ def bisection(f: Double => Double, error: Double, range: (Double, Double)) ={
     }else {
       println("Step " + step)
       println("Testing between " + range._1 + " and " + range._2)
-      if (math.abs(range._1) + math.abs(range._2) <= error)
+      if (math.abs(range._2 - range._1) < error)
         Right(range)
       else if (f(findMiddle(range)) == 0)
         Left(findMiddle(range))
@@ -24,5 +24,5 @@ def bisection(f: Double => Double, error: Double, range: (Double, Double)) ={
   doBisection(range,1)
 }
 
-bisection(x => x * x + 3 * x - 2, 0.000000001, (0,30))
+bisection(x => x * x * x + x - 50, 0.000000001, (0,30))
 
