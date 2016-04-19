@@ -7,9 +7,9 @@ def findLine(f: Double => Double)(range: (Double, Double)) = {
   range._1 - ((f(range._1)*(range._2-range._1))/(f(range._2) - f(range._1)))
 }
 
-def bisection(f: Double => Double, g: ((Double, Double)) => Double, error: Double, range: (Double, Double)) ={
+def findRoot(f: Double => Double, g: ((Double, Double)) => Double, error: Double, range: (Double, Double)) ={
 
-  def doBisection(range:(Double, Double), step: Int): Either[Double,(Double,Double)] ={
+  def apply(range:(Double, Double), step: Int): Either[Double,(Double,Double)] ={
     if(f(range._1) * f(range._2) > 0){
       println("Can't apply the method")
       Right(range)
@@ -24,14 +24,15 @@ def bisection(f: Double => Double, g: ((Double, Double)) => Double, error: Doubl
       else if (f(g(range)) == 0)
         Left(g(range))
       else if (f(g(range)) * f(range._1) < 0)
-        doBisection((range._1, g(range)), step + 1)
-      else doBisection((g(range), range._2), step + 1)
+        apply((range._1, g(range)), step + 1)
+      else apply((g(range), range._2), step + 1)
     }
   }
-  doBisection(range,1)
+  apply(range,1)
 }
 
 def function(x: Double) = math.pow(math.E,x) + x
 
-println(bisection(function ,findMiddle, 0.00001, (-1,0)))
+println(findRoot(function ,findMiddle, 0.00001, (-1,0)))
+println(findRoot(function ,findLine(function), 0.00001, (-1,0)))
 
