@@ -12,10 +12,10 @@ def findRoot(f: BigDecimal => BigDecimal,
              error: BigDecimal,
              range: (BigDecimal, BigDecimal)) ={
 
-  def apply(range:(BigDecimal, BigDecimal), step: Int): Either[BigDecimal,(BigDecimal,BigDecimal)] ={
+  def apply(range:(BigDecimal, BigDecimal), step: Int): Option[BigDecimal] ={
     if(f(range._1) * f(range._2) > 0){
       println("Can't apply the method")
-      Right(range)
+      None
     }else {
       println("Step " + step)
       println("Testing between " + range._1 + " and " + range._2)
@@ -25,9 +25,9 @@ def findRoot(f: BigDecimal => BigDecimal,
       println("f(p) = " + f(g(range)))
 
       if ((range._2 - range._1).abs < error)
-        Right(range)
+        Some((range._1 + range._2)/2.0)
       else if (f(g(range)) == 0)
-        Left(g(range))
+        Some(g(range))
       else if (f(g(range)) * f(range._1) < 0)
         apply((range._1, g(range)), step + 1)
       else apply((g(range), range._2), step + 1)
